@@ -41,7 +41,7 @@ class SquareButton(QPushButton):
     color2 = "#769656"
     
     def __init__(self, id):
-        super().__init__(str())
+        super().__init__(str(id))
         self.id = id
         
         if (id % 2 == 0 and id // 8 % 2 == 0) or (id % 2 != 0 and id // 8 % 2 != 0):

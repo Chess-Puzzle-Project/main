@@ -8,7 +8,7 @@ class PuzzlesDatabase:
         self.cursor = self.conn.cursor()
 
     def get_all_puzzles(self):
-        self.cursor.execute("SELECT * FROM lichess_puzzle_transformed WHERE Themes LIKE ?", ('%mateIn%',))
+        self.cursor.execute("SELECT * FROM lichess_puzzle_transformed")
         return self.cursor.fetchall()
 
     def get_random_puzzle(self):
@@ -16,9 +16,9 @@ class PuzzlesDatabase:
         random_puzzle = puzzles[randint(0, len(puzzles)-1)]
 
         puzzle_id = random_puzzle[0]
-        fen = random_puzzle[2]
-        moves = random_puzzle[3]
-        rating = random_puzzle[4]
+        fen = random_puzzle[1]
+        moves = random_puzzle[2]
+        rating = random_puzzle[3]
 
         puzzle = Puzzle(puzzle_id, fen, moves, rating)
         return puzzle
