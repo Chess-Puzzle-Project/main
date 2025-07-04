@@ -4,6 +4,7 @@ class Puzzle:
         self.fen = fen
         self.moves = moves
         self.rating = rating
+        self.board = self.fen_to_board()
 
     def fen_to_board(self):
         board = []

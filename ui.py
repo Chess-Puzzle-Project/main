@@ -15,6 +15,8 @@ class MainWindow(QWidget):
         self.setLayout(self.main_layout)
         self.show()
     
+    def draw_pieces(self, board):
+        pass # Board არის 64 ელემენტიანი ლისტი სადაც R - Rook, K - King, N - knight ა.შ თუ დიდი ასოა თეთრია და თუ პატარა მაგ r შავი.
 
     def setup_squares(self):
         self.btn_layout = QGridLayout()
@@ -30,6 +32,8 @@ class MainWindow(QWidget):
         self.wrapper = QWidget()
         self.wrapper.setFixedSize(600, 600)
         self.wrapper.setLayout(self.btn_layout)
+    
+
 
 
 class SquareButton(QPushButton):

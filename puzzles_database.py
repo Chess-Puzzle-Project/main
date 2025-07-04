@@ -6,7 +6,6 @@ class PuzzlesDatabase:
     def __init__(self, database_name="data.sqlite"):
         self.conn = sqlite3.connect(database_name)
         self.cursor = self.conn.cursor()
-        print(self.get_random_puzzle())
 
     def get_all_puzzles(self):
         self.cursor.execute("SELECT * FROM lichess_puzzle_transformed WHERE Themes LIKE ?", ('%mateIn%',))
@@ -23,6 +22,3 @@ class PuzzlesDatabase:
 
         puzzle = Puzzle(puzzle_id, fen, moves, rating)
         return puzzle
-
-
-db1 = PuzzlesDatabase()
