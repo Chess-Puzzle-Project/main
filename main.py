@@ -1,10 +1,11 @@
 from PyQt5.QtWidgets import QApplication
-import sys, ui, puzzles_database
+import sys, ui, puzzles_database, users_database
 
 
 class Main:
     def __init__(self):
         self.data = puzzles_database.PuzzlesDatabase()
+        self.users = users_database.UsersDatabase()
         self.window = ui.MainWindow()
 
         self.puzzle = self.data.get_random_puzzle()
