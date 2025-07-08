@@ -16,7 +16,13 @@ class MainWindow(QWidget):
         self.show()
     
     def draw_pieces(self, board):
-        pass # Board არის 64 ელემენტიანი ლისტი სადაც R - Rook, K - King, N - knight ა.შ თუ დიდი ასოა თეთრია და თუ პატარა მაგ r შავი.
+        for i in range(64):
+            x, y = i // 8, i % 8
+            if board[i] != '':
+                pass  # თუ ცარიელი არ იქნება დახატავს x * 75 და y * 75
+
+        # Board არის 64 ელემენტიანი ლისტი სადაც R - Rook, K - King, N - knight ა.შ თუ დიდი ასოა თეთრია და თუ პატარა მაგ r შავი.
+    
 
     def setup_squares(self):
         self.btn_layout = QGridLayout()
