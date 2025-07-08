@@ -1,4 +1,4 @@
-from PyQt5.QtWidgets import QApplication
+from PyQt5.QtWidgets import QApplication, QLineEdit
 import sys, ui, puzzles_database, users_database
 from PyQt5.QtCore import QTimer
 

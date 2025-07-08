@@ -1,18 +1,21 @@
-from PyQt5.QtWidgets import QWidget, QGridLayout, QPushButton, QHBoxLayout
-
-
+from PyQt5.QtWidgets import QWidget, QGridLayout, QPushButton, QHBoxLayout, QLineEdit, QVBoxLayout
+import users_database
 
 class MainWindow(QWidget):
     def __init__(self):
         super().__init__()
         self.resize(600, 900)
 
+        self.vertical_layout = QVBoxLayout()
+        self.username_input_box()
+
         self.setup_squares()
 
         self.main_layout = QHBoxLayout()
         self.main_layout.addWidget(self.wrapper)
+        self.vertical_layout.addLayout(self.main_layout)
 
-        self.setLayout(self.main_layout)
+        self.setLayout(self.vertical_layout)
         self.show()
     
     def draw_pieces(self, board):
@@ -38,9 +41,20 @@ class MainWindow(QWidget):
         self.wrapper = QWidget()
         self.wrapper.setFixedSize(600, 600)
         self.wrapper.setLayout(self.btn_layout)
-    
 
+    def username_input_box(self):
+        self.input_box = QLineEdit(self)
+        self.input_box.setPlaceholderText("შეიყვანეთ მომხმარებლის სახელი...")
+        self.input_box.setFixedSize(300, 50)
+        self.vertical_layout.addWidget(self.input_box)
+        self.input_box.returnPressed.connect(self.on_enter_pressed)
 
+    def on_enter_pressed(self):
+        entered_text = self.input_box.text()
+        print(f"შეყვანილი მომხმარებლის სახელი: {entered_text}")
+        username_exists = users_database.UsersDatabase.check_if_username_exists(entered_text)
+        print(f"არსებობს მომხმარებელი? {username_exists}")
+        self.input_box.clear()
 
 class SquareButton(QPushButton):
     color1 = "#eeeed2"
