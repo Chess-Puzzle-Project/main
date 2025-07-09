@@ -1,4 +1,4 @@
-from PyQt5.QtCore import QSize
+from PyQt5.QtCore import QSize, Qt
 from PyQt5.QtGui import QIcon
 from PyQt5.QtWidgets import QWidget, QGridLayout, QPushButton, QHBoxLayout, QLineEdit, QVBoxLayout
 import users_database
@@ -7,7 +7,7 @@ class MainWindow(QWidget):
     def __init__(self):
         super().__init__()
         self.resize(600, 900)
-        self.setStyleSheet("background-color: lightgrey;")
+        self.setStyleSheet("background-color: #262626;")
 
         self.vertical_layout = QVBoxLayout()
         self.username_input_box()
@@ -60,8 +60,8 @@ class MainWindow(QWidget):
     def username_input_box(self):
         self.input_box = QLineEdit(self)
         self.input_box.setPlaceholderText("შეიყვანეთ მომხმარებლის სახელი...")
-        self.input_box.setFixedSize(300, 50)
-        self.input_box.setStyleSheet("font-size: 18px;")
+        self.input_box.setFixedSize(400, 50)
+        self.input_box.setStyleSheet("font-size: 18px; color: white; background-color: #424242; border-radius: 20px; padding: 10px;")
         self.vertical_layout.addWidget(self.input_box)
         self.input_box.returnPressed.connect(self.on_enter_pressed)
 
@@ -77,9 +77,13 @@ class MainWindow(QWidget):
         self.answer_button = QPushButton('სწორი პასუხის ნახვა')
         self.next_button = QPushButton('შემდეგი')
         self.next_button.setFixedSize(250, 50)
-        self.next_button.setStyleSheet("font-size: 20px;")
+        self.next_button.setStyleSheet("font-size: 20px; color: white; background-color: #424242; border-radius: 20px;")
+        self.next_button.setCursor(Qt.PointingHandCursor)
+
         self.answer_button.setFixedSize(250, 50)
-        self.answer_button.setStyleSheet("font-size: 20px;")
+        self.answer_button.setStyleSheet("font-size: 20px; color: white; background-color: #424242; border-radius: 20px;")
+        self.answer_button.setCursor(Qt.PointingHandCursor)
+
         self.button_layout.addWidget(self.answer_button)
         self.button_layout.addWidget(self.next_button)
         self.vertical_layout.addLayout(self.button_layout)
