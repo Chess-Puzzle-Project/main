@@ -7,6 +7,7 @@ class MainWindow(QWidget):
     def __init__(self):
         super().__init__()
         self.resize(600, 900)
+        self.setStyleSheet("background-color: lightgrey;")
 
         self.vertical_layout = QVBoxLayout()
         self.username_input_box()
@@ -23,6 +24,8 @@ class MainWindow(QWidget):
                        'B': 'pieces/wb.png', 'b': 'pieces/bb.png',
                        'P': 'pieces/wp.png', 'p': 'pieces/bp.png',
                        'R': 'pieces/wr.png', 'r': 'pieces/br.png'}
+
+        self.next_and_correct_buttons()
 
         self.setLayout(self.vertical_layout)
         self.show()
@@ -58,6 +61,7 @@ class MainWindow(QWidget):
         self.input_box = QLineEdit(self)
         self.input_box.setPlaceholderText("შეიყვანეთ მომხმარებლის სახელი...")
         self.input_box.setFixedSize(300, 50)
+        self.input_box.setStyleSheet("font-size: 18px;")
         self.vertical_layout.addWidget(self.input_box)
         self.input_box.returnPressed.connect(self.on_enter_pressed)
 
@@ -67,6 +71,20 @@ class MainWindow(QWidget):
         username_exists = users_database.UsersDatabase.check_if_username_exists(entered_text)
         print(f"არსებობს მომხმარებელი? {username_exists}")
         self.input_box.clear()
+
+    def next_and_correct_buttons(self):
+        self.button_layout = QHBoxLayout()
+        self.answer_button = QPushButton('სწორი პასუხის ნახვა')
+        self.next_button = QPushButton('შემდეგი')
+        self.next_button.setFixedSize(250, 50)
+        self.next_button.setStyleSheet("font-size: 20px;")
+        self.answer_button.setFixedSize(250, 50)
+        self.answer_button.setStyleSheet("font-size: 20px;")
+        self.button_layout.addWidget(self.answer_button)
+        self.button_layout.addWidget(self.next_button)
+        self.vertical_layout.addLayout(self.button_layout)
+
+
 
 class SquareButton(QPushButton):
     color1 = "#eeeed2"
