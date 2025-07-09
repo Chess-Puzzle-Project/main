@@ -37,10 +37,10 @@ class Main:
 
         if self.selected_piece == -1:
             #
-            if self.puzzle.board[clicked_btn.id] != '' and self.board[clicked_btn.id].isupper() == (self.color == 'w'):
+            if self.puzzle.board[clicked_btn.id] != '' and self.board[clicked_btn.id].isupper() == (self.color == 'w') and self.can_click:
                 self.selected_piece = clicked_btn.id
                 self.color_board()
-        else:
+        elif self.can_click:
             #
             if self.board[clicked_btn.id] != "" and self.board[clicked_btn.id].isupper() == (self.color == 'w'):
                 self.selected_piece = clicked_btn.id
@@ -48,26 +48,30 @@ class Main:
             else:
                 #
                 if self.selected_piece == self.sq_to_index(self.moves[self.move_num][0:2]) and clicked_btn.id == self.sq_to_index(self.moves[self.move_num][2:]):
+                    self.change_board(self.selected_piece, clicked_btn.id)
+                    self.window.draw_pieces(self.board)
+
                     if self.move_num < len(self.moves) - 1:
-                        self.change_board(self.selected_piece, clicked_btn.id)
-                        self.window.draw_pieces(self.board)
                         self.move_num += 1
                         self.selected_piece = -1
                         self.color_board()
-                        self.can_move = False
+                        self.can_click = False
                         QTimer.singleShot(1000, self.opponent_move)
                     else:
+                        self.color_board()
                         self.win()
                 else:
                     print("lose")
                     self.can_click = False
+                    self.selected_piece = -1
+                    self.color_board()
     
     def opponent_move(self):
         self.change_board(self.sq_to_index(self.moves[self.move_num][0:2]), self.sq_to_index(self.moves[self.move_num][2:]))
         self.window.draw_pieces(self.board)
 
         self.move_num += 1
-        self.can_move = True
+        self.can_click = True
         self.color_board()
 
 
@@ -92,6 +96,9 @@ class Main:
     
     def win(self):
         print("win")
+        self.can_click = False
+        self.selected_piece = -1
+        self.color_board()
 
         
 
