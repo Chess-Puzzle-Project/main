@@ -15,6 +15,10 @@ class Main:
         self.moves = self.puzzle.moves.split(' ')
         self.move_num = 0
         self.color = self.puzzle.fen.split(' ')[1]
+        if self.color == 'b':
+            self.color = 'w'
+        else:
+            self.color = 'b'
 
         print(self.moves)
 
@@ -22,14 +26,18 @@ class Main:
             btn.clicked.connect(self.on_btn_click)
 
         self.selected_piece = -1
-        self.can_click = True
+        self.can_click = False
+
+        QTimer.singleShot(1000, self.opponent_move)
+
+
         
     def on_btn_click(self):
         clicked_btn = self.window.sender()
 
         if self.selected_piece == -1:
             #
-            if self.puzzle.board[clicked_btn.id] != '':
+            if self.puzzle.board[clicked_btn.id] != '' and self.board[clicked_btn.id].isupper() == (self.color == 'w'):
                 self.selected_piece = clicked_btn.id
                 self.color_board()
         else:
@@ -52,12 +60,16 @@ class Main:
                         self.win()
                 else:
                     print("lose")
+                    self.can_click = False
     
     def opponent_move(self):
         self.change_board(self.sq_to_index(self.moves[self.move_num][0:2]), self.sq_to_index(self.moves[self.move_num][2:]))
         self.window.draw_pieces(self.board)
+
         self.move_num += 1
         self.can_move = True
+        self.color_board()
+
 
     def color_board(self):
         for i in range(64):
@@ -65,6 +77,10 @@ class Main:
                 self.window.buttons[i].setStyleSheet("background: #f7f757; border: none")
             else:
                 self.window.buttons[i].setStyleSheet("background: " + self.window.buttons[i].color + "; border: none")
+        
+        if self.move_num > 0:
+            self.window.buttons[self.sq_to_index(self.moves[self.move_num -1][0:2])].setStyleSheet("background: #f7f757; border: none")
+            self.window.buttons[self.sq_to_index(self.moves[self.move_num -1][2:])].setStyleSheet("background: #f7f757; border: none")
 
     def change_board(self, index1, index2):
         self.board[index2] = self.board[index1]
