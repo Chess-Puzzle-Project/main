@@ -1,4 +1,5 @@
 import sqlite3
+import user
 
 class UsersDatabase:
     database_name="users.sqlite"
@@ -33,3 +34,9 @@ class UsersDatabase:
         UsersDatabase.cursor.execute("SELECT COUNT(*) FROM user WHERE username=?", (username,))
         count = UsersDatabase.cursor.fetchone()[0]
         return count > 0 # აბრუნებს True ან False იმის მიხედვით username არსებობს ბაზაში თუ არა.
+
+    def return_user_as_class(self, username):
+        UsersDatabase.cursor.execute("SELECT * FROM user WHERE username=?", (username,))
+        data = UsersDatabase.cursor.fetchone()
+        current_user = user.User(data[1], data[2], data[3])
+        return current_user

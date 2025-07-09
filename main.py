@@ -7,7 +7,7 @@ class Main:
     def __init__(self):
         self.data = puzzles_database.PuzzlesDatabase()
         self.users = users_database.UsersDatabase()
-        self.window = ui.MainWindow()
+        self.window = ui.MainWindow(self)
 
         self.puzzle = self.data.get_random_puzzle()
         self.board = self.puzzle.board

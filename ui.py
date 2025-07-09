@@ -1,15 +1,18 @@
 from PyQt5.QtCore import QSize, Qt
 from PyQt5.QtGui import QIcon
-from PyQt5.QtWidgets import QWidget, QGridLayout, QPushButton, QHBoxLayout, QLineEdit, QVBoxLayout
-import users_database
+from PyQt5.QtWidgets import QWidget, QGridLayout, QPushButton, QHBoxLayout, QLineEdit, QVBoxLayout, QLabel
+import users_database, user
 
 class MainWindow(QWidget):
-    def __init__(self):
+    def __init__(self, main):
         super().__init__()
         self.resize(600, 900)
+        self.main = main
+        self.stats_box = QLabel(self)
         self.setStyleSheet("background-color: #262626;")
 
         self.vertical_layout = QVBoxLayout()
+        self.draw_user_stats()
         self.username_input_box()
 
         self.setup_squares()
@@ -60,7 +63,7 @@ class MainWindow(QWidget):
     def username_input_box(self):
         self.input_box = QLineEdit(self)
         self.input_box.setPlaceholderText("შეიყვანეთ მომხმარებლის სახელი...")
-        self.input_box.setFixedSize(400, 50)
+        self.input_box.setFixedHeight(50)
         self.input_box.setStyleSheet("font-size: 18px; color: white; background-color: #424242; border-radius: 20px; padding: 10px;")
         self.vertical_layout.addWidget(self.input_box)
         self.input_box.returnPressed.connect(self.on_enter_pressed)
@@ -71,6 +74,32 @@ class MainWindow(QWidget):
         username_exists = users_database.UsersDatabase.check_if_username_exists(entered_text)
         print(f"არსებობს მომხმარებელი? {username_exists}")
         self.input_box.clear()
+
+        if username_exists:
+            current_user = self.main.users.return_user_as_class(entered_text)
+            self.input_box.setParent(None)
+            self.input_box.hide()
+            self.draw_user_stats(current_user)
+
+        else:
+            new_user = user.User(entered_text, 0, 0)
+            self.main.users.add_user(*new_user.__str__())
+            self.input_box.setParent(None)
+            self.input_box.hide()
+            self.draw_user_stats(new_user)
+
+    def draw_user_stats(self, user=None):
+        if user is None:
+            self.stats_box.setFixedHeight(50)
+            self.stats_box.setStyleSheet(
+                "font-size: 18px; color: white; background-color: #424242; border-radius: 20px; padding: 10px;")
+            self.stats_box.setParent(None)
+            self.stats_box.hide()
+            self.vertical_layout.addWidget(self.stats_box)
+        else:
+            self.stats_box.setParent(self)
+            self.stats_box.show()
+            self.stats_box.setText(f"👤 {user.username}     📈 რეიტინგი: {user.elo}     ✅ ამოხსნილი პაზლები: {user.puzzles_solved}")
 
     def next_and_correct_buttons(self):
         self.button_layout = QHBoxLayout()
