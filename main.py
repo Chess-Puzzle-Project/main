@@ -12,12 +12,12 @@ class Main:
         self.timer.setSingleShot(True)
         self.timer.timeout.connect(self.opponent_move)
 
-        self.load_new_puzzle()
 
         for btn in self.window.buttons:
             btn.clicked.connect(self.on_btn_click)
 
         self.window.next_button.pressed.connect(self.load_new_puzzle)
+        self.window.input_box.editingFinished.connect(self.load_new_puzzle)
 
 
     def load_new_puzzle(self):
