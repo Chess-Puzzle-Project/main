@@ -1,3 +1,5 @@
+from PyQt5.QtCore import QSize
+from PyQt5.QtGui import QIcon
 from PyQt5.QtWidgets import QWidget, QGridLayout, QPushButton, QHBoxLayout, QLineEdit, QVBoxLayout
 import users_database
 
@@ -15,16 +17,26 @@ class MainWindow(QWidget):
         self.main_layout.addWidget(self.wrapper)
         self.vertical_layout.addLayout(self.main_layout)
 
+        self.pieces = {'K': 'pieces/wk.png', 'k': 'pieces/bk.png',
+                       'Q': 'pieces/wq.png', 'q': 'pieces/bq.png',
+                       'N': 'pieces/wn.png', 'n': 'pieces/bn.png',
+                       'B': 'pieces/wb.png', 'b': 'pieces/bb.png',
+                       'P': 'pieces/wp.png', 'p': 'pieces/bp.png',
+                       'R': 'pieces/wr.png', 'r': 'pieces/br.png'}
+
         self.setLayout(self.vertical_layout)
         self.show()
     
     def draw_pieces(self, board):
         for i in range(64):
-            x, y = i // 8, i % 8
-            if board[i] != '':
-                pass  # თუ ცარიელი არ იქნება დახატავს x * 75 და y * 75
-
-        # Board არის 64 ელემენტიანი ლისტი სადაც R - Rook, K - King, N - knight ა.შ თუ დიდი ასოა თეთრია და თუ პატარა მაგ r შავი.
+            piece = board[i]
+            if piece != '':
+                path = self.pieces[piece]
+                if piece:
+                    self.buttons[i].setIcon(QIcon(path))
+                    self.buttons[i].setIconSize(QSize(75, 75))
+            else:
+                self.buttons[i].setIcon(QIcon())
     
 
     def setup_squares(self):
