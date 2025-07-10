@@ -17,6 +17,7 @@ class Main:
             btn.clicked.connect(self.on_btn_click)
 
         self.window.next_button.pressed.connect(self.load_new_puzzle)
+        self.window.answer_button.pressed.connect(self.show_answer)
         self.window.input_box.editingFinished.connect(self.load_new_puzzle)
 
 
@@ -45,7 +46,6 @@ class Main:
 
         self.color_board()
         self.timer.start(1000)
-        self.window.answer_button.pressed.connect(self.show_answer)
         self.window.setStyleSheet("background-color: #262626;")
 
 
