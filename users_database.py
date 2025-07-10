@@ -40,3 +40,7 @@ class UsersDatabase:
         data = UsersDatabase.cursor.fetchone()
         current_user = user.User(data[1], data[2], data[3])
         return current_user
+
+    def delete_user(self, username):
+        self.cursor.execute("DELETE FROM user WHERE username=?", (username,))
+        self.conn.commit()
