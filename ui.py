@@ -187,20 +187,23 @@ class MainWindow(QWidget):
             QMessageBox QLabel {
                 color: white;
                 font-size: 14px;
+                margin-top: 10px;
             }
             
             QPushButton {
                 background-color:  #424242;
                 color: white;
                 padding: 15px 30px;
-                margin-right: 20px;
+                margin-right: 50px;
                 border-radius: 10px;
-                font-size: 14px;
+                font-size: 17px;
             }
         """)
 
         self.question.setStandardButtons(QMessageBox.Yes | QMessageBox.No)
         self.question.setDefaultButton(QMessageBox.No)
+        self.question.button(QMessageBox.Yes).setText("კი")
+        self.question.button(QMessageBox.No).setText("არა")
 
         result = self.question.exec_()
 
