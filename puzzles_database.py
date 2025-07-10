@@ -47,7 +47,7 @@ class PuzzlesDatabase:
             puzzle_ids_grouped[rating] = puzzles_by_rating.get(int(rating), [])
 
         for rating in all_ratings:
-            if int(rating) > user_elo:
+            if int(rating) > user_elo and int(rating) > 550:
                 next_puzzle_id = choice(puzzle_ids_grouped[rating])
                 print(next_puzzle_id)
                 break

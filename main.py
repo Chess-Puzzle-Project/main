@@ -1,5 +1,6 @@
 from PyQt5.QtWidgets import QApplication, QLineEdit
 import sys, ui, puzzles_database, users_database
+from random import *
 from PyQt5.QtCore import QTimer
 
 
@@ -157,7 +158,7 @@ class Main:
         self.has_won = True
         self.color_board()
         ui.MainWindow.CURRENT_USER.puzzles_solved += 1
-        ui.MainWindow.CURRENT_USER.elo = puzzles_database.PuzzlesDatabase.next_rating + 50
+        ui.MainWindow.CURRENT_USER.elo = puzzles_database.PuzzlesDatabase.next_rating + randint(20,50)
         self.users.update_user(*ui.MainWindow.CURRENT_USER.__str__())
         self.window.draw_user_stats(ui.MainWindow.CURRENT_USER)
 
@@ -168,6 +169,7 @@ class Main:
         self.has_lost = True
         self.selected_piece = -1
         self.color_board()
+        ui.MainWindow.CURRENT_USER.elo = puzzles_database.PuzzlesDatabase.next_rating - randint(20,50)
 
 
 if __name__ == '__main__':
