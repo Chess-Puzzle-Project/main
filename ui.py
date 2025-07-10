@@ -179,8 +179,29 @@ class MainWindow(QWidget):
         self.question.setIcon(QMessageBox.Question)
         self.question.setWindowTitle("მომხმარებლის წაშლა")
         self.question.setText("ნამდვილად გსურთ მომხმარებლის წაშლა?")
+
+        self.question.setStyleSheet("""
+            QMessageBox {
+                background-color: #262626;
+            }
+            QMessageBox QLabel {
+                color: white;
+                font-size: 14px;
+            }
+            
+            QPushButton {
+                background-color:  #424242;
+                color: white;
+                padding: 15px 30px;
+                margin-right: 20px;
+                border-radius: 10px;
+                font-size: 14px;
+            }
+        """)
+
         self.question.setStandardButtons(QMessageBox.Yes | QMessageBox.No)
         self.question.setDefaultButton(QMessageBox.No)
+
         result = self.question.exec_()
 
         if result == QMessageBox.Yes:
