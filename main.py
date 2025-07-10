@@ -38,6 +38,7 @@ class Main:
         if self.timer.isActive():
             self.timer.stop()
 
+        # მოაქვს პაზლი ბაზიდან
         self.puzzle = self.data.get_next_puzzle()
         self.board = self.puzzle.board
         self.is_board_loaded = True
@@ -88,6 +89,7 @@ class Main:
                     self.window.draw_pieces(self.board)
 
                     if self.move_num < len(self.moves) - 1:
+                        # თუ უბრალოდ სვლა კეთდება
                         self.move_num += 1
                         self.selected_piece = -1
                         self.color_board()
@@ -95,6 +97,7 @@ class Main:
                         self.timer.singleShot(1000, self.opponent_move)
                         winsound.PlaySound("soundeffects/move", winsound.SND_ASYNC)
                     else:
+                        # შამათი
                         self.color_board()
                         self.win()
                         winsound.PlaySound("soundeffects/checkmate", winsound.SND_ASYNC)
@@ -110,6 +113,7 @@ class Main:
         self.move_num += 1
         self.color_board()
 
+        # თუ მომხმარებელმა წააგო მეორდება ე.ი. აჩვენებს სწორ პასუზს
         if self.has_lost:
             if self.move_num != len(self.moves):
                 self.timer.start(1000)
@@ -119,11 +123,13 @@ class Main:
 
     def color_board(self):
         for i in range(64):
+            # მონიშნულ უჯრას აფერადებს
             if i == self.selected_piece:
                 self.window.buttons[i].setStyleSheet("background: #f7f757; border: none")
             else:
                 self.window.buttons[i].setStyleSheet("background: " + self.window.buttons[i].color + "; border: none")
         
+        # ბოლო სვლას აფერადებს
         if self.move_num > 0:
             self.window.buttons[self.sq_to_index(self.moves[self.move_num -1][0:2])].setStyleSheet("background: #f7f757; border: none")
             self.window.buttons[self.sq_to_index(self.moves[self.move_num -1][2:])].setStyleSheet("background: #f7f757; border: none")
@@ -133,6 +139,7 @@ class Main:
         self.board[index1] = ""
 
     def sq_to_index(self, square):
+        # გადაყავს ჭადრაკის უჯრა მაგ. f4 რიცხვად 0 დან 63-ის ჩათვლით
         letters = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h']
         index =  letters.index(square[0]) + (8 - int(square[1])) * 8
 
@@ -142,6 +149,7 @@ class Main:
             return 63 - index
     
     def show_answer(self):
+        # პასუხის ნახვის არჩევის შემთხვევა
         if self.is_board_loaded and self.move_num < len(self.moves) and not self.timer.isActive() and not self.has_won:
             if not self.has_lost:
                 self.lose()
@@ -151,6 +159,7 @@ class Main:
             self.timer.start(1000)
     
     def on_next_pressed(self):
+        # ახალ პაზლზე გადასვლის შემთხვევა
         if self.is_board_loaded:
             if self.has_won == False and self.has_lost == False and ui.MainWindow.CURRENT_USER.elo != 0:
                 ui.MainWindow.CURRENT_USER.elo = ui.MainWindow.CURRENT_USER.elo - randint(20, 50)
