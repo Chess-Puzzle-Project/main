@@ -27,20 +27,35 @@ class PuzzlesDatabase:
     def get_next_puzzle(self):
         puzzles = self.get_all_puzzles()
         user = ui.MainWindow.CURRENT_USER
+        user_elo = user.elo
 
         all_ratings = []
         for puzzle in puzzles:
             all_ratings.append(int(puzzle[3]))
         all_ratings.sort()
+        all_ratings = list(set(all_ratings))
+
+        puzzle_ids_grouped = {}
+        puzzles_by_rating = {}
+        for puzzle in puzzles:
+            rating = int(puzzle[3])
+            if rating not in puzzles_by_rating:
+                puzzles_by_rating[rating] = []
+            puzzles_by_rating[rating].append(puzzle[0])
 
         for rating in all_ratings:
-            if int(rating) > user.elo:
-                PuzzlesDatabase.next_rating = int(rating)
+            puzzle_ids_grouped[rating] = puzzles_by_rating.get(int(rating), [])
+
+        for rating in all_ratings:
+            if int(rating) > user_elo:
+                next_puzzle_id = choice(puzzle_ids_grouped[rating])
+                print(next_puzzle_id)
                 break
 
         next_puzzle = None
         for puzzle in puzzles:
-            if int(puzzle[3]) == PuzzlesDatabase.next_rating:
+            if puzzle[0] == next_puzzle_id:
+                PuzzlesDatabase.next_rating = int(puzzle[3])
                 next_puzzle = Puzzle(puzzle[0], puzzle[1], puzzle[2], puzzle[3])
                 break
         print(next_puzzle)
