@@ -23,9 +23,15 @@ class Main:
         self.window.input_box.returnPressed.connect(lambda: (
             self.window.on_enter_pressed(),
             self.load_new_puzzle(),
-            self.window.delete_button.show()
+            self.window.delete_button.show(),
+            self.window.login_button.hide()
         ))
-
+        self.window.login_button.clicked.connect(lambda: (
+            self.window.on_enter_pressed(),
+            self.load_new_puzzle(),
+            self.window.delete_button.show(),
+            self.window.login_button.hide()
+        ))
 
     def load_new_puzzle(self):
         if self.timer.isActive():

@@ -133,6 +133,7 @@ class MainWindow(QWidget):
 
         self.input_box.setParent(self)
         self.input_box.show()
+        self.login_button.show()
         self.input_box.clear()
         self.stats_box.hide()
         self.delete_button.hide()
