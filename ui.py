@@ -1,6 +1,6 @@
 from PyQt5.QtCore import QSize, Qt
 from PyQt5.QtGui import QIcon,  QKeySequence
-from PyQt5.QtWidgets import QWidget, QGridLayout, QPushButton, QHBoxLayout, QLineEdit, QVBoxLayout, QLabel, QShortcut
+from PyQt5.QtWidgets import QWidget, QGridLayout, QPushButton, QHBoxLayout, QLineEdit, QVBoxLayout, QLabel, QShortcut, QMessageBox
 import users_database, user
 
 class MainWindow(QWidget):
@@ -161,7 +161,8 @@ class MainWindow(QWidget):
         self.delete_layout.addWidget(self.delete_button)
         self.vertical_layout.insertLayout(1, self.delete_layout)
         self.delete_button.hide()
-        self.delete_button.clicked.connect(self.delete_user_function)
+        # self.delete_button.clicked.connect(self.delete_user_function)
+        self.delete_button.clicked.connect(self.warning_question)
 
     def login_register_button(self):
         self.login_layout = QHBoxLayout()
@@ -172,6 +173,18 @@ class MainWindow(QWidget):
         self.login_button.setCursor(Qt.PointingHandCursor)
         self.login_layout.addWidget(self.login_button)
         self.vertical_layout.insertLayout(2, self.login_layout)
+
+    def warning_question(self):
+        self.question = QMessageBox(self)
+        self.question.setIcon(QMessageBox.Question)
+        self.question.setWindowTitle("მომხმარებლის წაშლა")
+        self.question.setText("ნამდვილად გსურთ მომხმარებლის წაშლა?")
+        self.question.setStandardButtons(QMessageBox.Yes | QMessageBox.No)
+        self.question.setDefaultButton(QMessageBox.No)
+        result = self.question.exec_()
+
+        if result == QMessageBox.Yes:
+            self.delete_user_function()
 
 class SquareButton(QPushButton):
     color1 = "#eeeed2"
