@@ -72,21 +72,21 @@ class MainWindow(QWidget):
 
     def on_enter_pressed(self):
         self.delete_user_button()
-        entered_text = self.input_box.text()
-        print(f"შეყვანილი მომხმარებლის სახელი: {entered_text}")
-        username_exists = users_database.UsersDatabase.check_if_username_exists(entered_text)
+        self.entered_text = self.input_box.text()
+        print(f"შეყვანილი მომხმარებლის სახელი: {self.entered_text}")
+        username_exists = users_database.UsersDatabase.check_if_username_exists(self.entered_text)
         print(f"არსებობს მომხმარებელი? {username_exists}")
         self.input_box.clear()
 
         if username_exists:
-            current_user = self.main.users.return_user_as_class(entered_text)
+            current_user = self.main.users.return_user_as_class(self.entered_text)
             self.input_box.setParent(None)
             self.input_box.hide()
             self.draw_user_stats(current_user)
             MainWindow.CURRENT_USER = current_user
 
         else:
-            new_user = user.User(entered_text, 0, 0)
+            new_user = user.User(self.entered_text, 0, 0)
             self.main.users.add_user(*new_user.__str__())
             self.input_box.setParent(None)
             self.input_box.hide()
@@ -122,6 +122,11 @@ class MainWindow(QWidget):
         self.button_layout.addWidget(self.next_button)
         self.vertical_layout.addLayout(self.button_layout)
 
+    def delete_user_function(self):
+        username = self.entered_text
+        self.main.users.delete_user(username)
+
+
     def delete_user_button(self):
         self.delete_layout = QHBoxLayout()
         self.delete_layout.addStretch()
@@ -131,6 +136,8 @@ class MainWindow(QWidget):
         self.delete_button.setCursor(Qt.PointingHandCursor)
         self.delete_layout.addWidget(self.delete_button)
         self.vertical_layout.insertLayout(1, self.delete_layout)
+        self.delete_button.clicked.connect(self.delete_user_function)
+
 
 
 class SquareButton(QPushButton):
