@@ -1,6 +1,6 @@
 from PyQt5.QtCore import QSize, Qt
-from PyQt5.QtGui import QIcon
-from PyQt5.QtWidgets import QWidget, QGridLayout, QPushButton, QHBoxLayout, QLineEdit, QVBoxLayout, QLabel
+from PyQt5.QtGui import QIcon,  QKeySequence
+from PyQt5.QtWidgets import QWidget, QGridLayout, QPushButton, QHBoxLayout, QLineEdit, QVBoxLayout, QLabel, QShortcut
 import users_database, user
 
 class MainWindow(QWidget):
@@ -33,6 +33,8 @@ class MainWindow(QWidget):
 
         self.next_and_correct_buttons()
         self.login_register_button()
+        shortcut = QShortcut(QKeySequence("Esc"), self)
+        shortcut.activated.connect(self.go_back)
 
         self.setLayout(self.vertical_layout)
         self.show()
@@ -121,22 +123,33 @@ class MainWindow(QWidget):
     def delete_user_function(self):
         username = self.entered_text
         self.main.users.delete_user(username)
-        self.main.can_click = False
-        board = []
-        for i in range(64):
-            board.append('')
-        self.draw_pieces(board)
-        self.main.is_board_loaded = False
-        if self.main.timer.isActive():
-            self.main.timer.stop()
-        self.setStyleSheet("background-color: #262626;")
+        self.go_back()
 
-        self.input_box.setParent(self)
-        self.input_box.show()
-        self.login_button.show()
-        self.input_box.clear()
-        self.stats_box.hide()
-        self.delete_button.hide()
+    def go_back(self):
+        if self.main.is_board_loaded:
+            username = self.entered_text
+            self.main.can_click = False
+
+            board = []
+            for i in range(64):
+                board.append('')
+            self.draw_pieces(board)
+            
+            for btn in self.buttons:
+                btn.setStyleSheet("background: " + btn.color + "; border: none")
+
+            self.main.is_board_loaded = False
+            if self.main.timer.isActive():
+                self.main.timer.stop()
+
+            self.setStyleSheet("background-color: #262626;")
+
+            self.input_box.setParent(self)
+            self.input_box.show()
+            self.login_button.show()
+            self.input_box.clear()
+            self.stats_box.hide()
+            self.delete_button.hide()
 
     def delete_user_button(self):
         self.delete_layout = QHBoxLayout()
