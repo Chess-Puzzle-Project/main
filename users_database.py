@@ -26,7 +26,7 @@ class UsersDatabase:
         self.conn.commit()
 
     def update_user(self, username, elo, puzzles_solved):
-        self.cursor.execute("UPDATE user elo=?, puzzles_solved=? WHERE username=?",
+        self.cursor.execute("UPDATE user SET elo=?, puzzles_solved=? WHERE username=?",
                             (elo, puzzles_solved, username))
         self.conn.commit()
 

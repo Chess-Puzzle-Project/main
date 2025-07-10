@@ -4,6 +4,8 @@ from PyQt5.QtWidgets import QWidget, QGridLayout, QPushButton, QHBoxLayout, QLin
 import users_database, user
 
 class MainWindow(QWidget):
+    CURRENT_USER = None
+
     def __init__(self, main):
         super().__init__()
         self.resize(600, 900)
@@ -80,6 +82,7 @@ class MainWindow(QWidget):
             self.input_box.setParent(None)
             self.input_box.hide()
             self.draw_user_stats(current_user)
+            MainWindow.CURRENT_USER = current_user
 
         else:
             new_user = user.User(entered_text, 0, 0)
@@ -87,6 +90,7 @@ class MainWindow(QWidget):
             self.input_box.setParent(None)
             self.input_box.hide()
             self.draw_user_stats(new_user)
+            MainWindow.CURRENT_USER = new_user
 
     def draw_user_stats(self, user=None):
         if user is None:

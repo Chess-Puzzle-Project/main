@@ -130,6 +130,9 @@ class Main:
         self.selected_piece = -1
         self.has_won = True
         self.color_board()
+        ui.MainWindow.CURRENT_USER.puzzles_solved += 1
+        self.users.update_user(*ui.MainWindow.CURRENT_USER.__str__())
+        self.window.draw_user_stats(ui.MainWindow.CURRENT_USER)
 
     def lose(self):
         print("lose")
