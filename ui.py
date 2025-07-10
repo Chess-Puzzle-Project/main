@@ -121,7 +121,10 @@ class MainWindow(QWidget):
         username = self.entered_text
         self.main.users.delete_user(username)
         self.main.can_click = False
-        self.draw_pieces(self.draw_pieces(board=['' for i in range(64)]))
+        board = []
+        for i in range(64):
+            board.append('')
+        self.draw_pieces(board)
 
         self.input_box.setParent(self)
         self.input_box.show()
