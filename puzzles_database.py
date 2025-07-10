@@ -33,15 +33,6 @@ class PuzzlesDatabase:
             all_ratings.append(int(puzzle[3]))
         all_ratings.sort()
 
-        # all_ratings_grouped = []
-        # for rating in all_ratings:
-        #     temp = rating
-        #     if temp != rating:
-        #         pass
-        #     else:
-
-
-
         for rating in all_ratings:
             if int(rating) > user.elo:
                 PuzzlesDatabase.next_rating = int(rating)
