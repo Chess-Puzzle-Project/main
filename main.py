@@ -32,11 +32,9 @@ class Main:
 
         self.puzzle = self.data.get_next_puzzle()
         self.board = self.puzzle.board
-        self.window.draw_pieces(self.board)
+        
         self.moves = self.puzzle.moves.split(' ')
         self.move_num = 0
-        self.has_lost = False
-        self.has_won = False
 
         self.color = self.puzzle.fen.split(' ')[1]
         if self.color == 'b':
@@ -48,8 +46,14 @@ class Main:
 
         self.selected_piece = -1
         self.can_click = False
+        self.has_lost = False
+        self.has_won = False
+
+        if self.color == 'b':
+            self.board.reverse()
 
         self.color_board()
+        self.window.draw_pieces(self.board)
         self.timer.start(1000)
         self.window.setStyleSheet("background-color: #262626;")
 
@@ -117,7 +121,12 @@ class Main:
 
     def sq_to_index(self, square):
         letters = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h']
-        return letters.index(square[0]) + (8 - int(square[1])) * 8
+        index =  letters.index(square[0]) + (8 - int(square[1])) * 8
+
+        if self.color == 'w':
+            return index
+        else:
+            return 63 - index
     
     def show_answer(self):
         if self.move_num < len(self.moves) and not self.timer.isActive() and not self.has_won:

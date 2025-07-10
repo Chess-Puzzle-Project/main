@@ -9,6 +9,7 @@ class MainWindow(QWidget):
     def __init__(self, main):
         super().__init__()
         self.resize(600, 900)
+        self.setWindowTitle("ჭადრაკის პაზლები")
         self.main = main
         self.stats_box = QLabel(self)
         self.setStyleSheet("background-color: #262626;")
@@ -123,6 +124,9 @@ class MainWindow(QWidget):
     def delete_user_function(self):
         username = self.entered_text
         self.main.users.delete_user(username)
+        self.main.can_click = False
+        self.draw_pieces(self.draw_pieces(board=['' for i in range(64)]))
+
         self.input_box.setParent(self)
         self.input_box.show()
         self.input_box.clear()
