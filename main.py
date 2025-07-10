@@ -148,7 +148,12 @@ class Main:
     
     def on_next_pressed(self):
         if self.is_board_loaded:
+            if self.has_won == False and self.has_lost == False and ui.MainWindow.CURRENT_USER.elo != 0:
+                ui.MainWindow.CURRENT_USER.elo = ui.MainWindow.CURRENT_USER.elo - randint(20, 50)
+                self.users.update_user(*ui.MainWindow.CURRENT_USER.__str__())
+                self.window.draw_user_stats(ui.MainWindow.CURRENT_USER)
             self.load_new_puzzle()
+
 
     def win(self):
         print("win")
@@ -169,7 +174,10 @@ class Main:
         self.has_lost = True
         self.selected_piece = -1
         self.color_board()
-        ui.MainWindow.CURRENT_USER.elo = puzzles_database.PuzzlesDatabase.next_rating - randint(20,50)
+        if ui.MainWindow.CURRENT_USER.elo != 0:
+            ui.MainWindow.CURRENT_USER.elo = ui.MainWindow.CURRENT_USER.elo - randint(20, 50)
+            self.users.update_user(*ui.MainWindow.CURRENT_USER.__str__())
+            self.window.draw_user_stats(ui.MainWindow.CURRENT_USER)
 
 
 if __name__ == '__main__':
