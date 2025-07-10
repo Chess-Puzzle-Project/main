@@ -32,6 +32,7 @@ class MainWindow(QWidget):
                        'R': 'pieces/wr.png', 'r': 'pieces/br.png'}
 
         self.next_and_correct_buttons()
+        self.login_register_button()
 
         self.setLayout(self.vertical_layout)
         self.show()
@@ -147,6 +148,16 @@ class MainWindow(QWidget):
         self.vertical_layout.insertLayout(1, self.delete_layout)
         self.delete_button.hide()
         self.delete_button.clicked.connect(self.delete_user_function)
+
+    def login_register_button(self):
+        self.login_layout = QHBoxLayout()
+        self.login_layout.addStretch()
+        self.login_button = QPushButton('შესვლა')
+        self.login_button.setFixedSize(200, 50)
+        self.login_button.setStyleSheet("font-size: 20px; color: white; background-color: #424242; border-radius: 20px;")
+        self.login_button.setCursor(Qt.PointingHandCursor)
+        self.login_layout.addWidget(self.login_button)
+        self.vertical_layout.insertLayout(2, self.login_layout)
 
 class SquareButton(QPushButton):
     color1 = "#eeeed2"
