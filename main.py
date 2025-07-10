@@ -2,7 +2,7 @@ from PyQt5.QtWidgets import QApplication, QLineEdit
 import sys, ui, puzzles_database, users_database
 from random import *
 from PyQt5.QtCore import QTimer
-import sounds
+import winsound
 
 class Main:
     def __init__(self):
@@ -93,17 +93,17 @@ class Main:
                         self.color_board()
                         self.can_click = False
                         self.timer.singleShot(1000, self.opponent_move)
-                        sounds.play_sound("move")
+                        winsound.PlaySound("soundeffects/move", winsound.SND_ASYNC)
                     else:
                         self.color_board()
                         self.win()
-                        sounds.play_sound("checkmate")
+                        winsound.PlaySound("soundeffects/checkmate", winsound.SND_ASYNC)
                 else:
                     self.lose()
-                    sounds.play_sound("move")
+                    winsound.PlaySound("soundeffects/move", winsound.SND_ASYNC)
     
     def opponent_move(self):
-        sounds.play_sound("move")
+        winsound.PlaySound("soundeffects/move", winsound.SND_ASYNC)
         self.change_board(self.sq_to_index(self.moves[self.move_num][0:2]), self.sq_to_index(self.moves[self.move_num][2:]))
         self.window.draw_pieces(self.board)
 
