@@ -131,7 +131,7 @@ class Main:
             return 63 - index
     
     def show_answer(self):
-        if self.move_num < len(self.moves) and not self.timer.isActive() and not self.has_won:
+        if self.is_board_loaded and self.move_num < len(self.moves) and not self.timer.isActive() and not self.has_won:
             if not self.has_lost:
                 self.lose()
 

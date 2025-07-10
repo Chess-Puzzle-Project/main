@@ -126,6 +126,9 @@ class MainWindow(QWidget):
             board.append('')
         self.draw_pieces(board)
         self.main.is_board_loaded = False
+        if self.main.timer.isActive():
+            self.main.timer.stop()
+        self.setStyleSheet("background-color: #262626;")
 
         self.input_box.setParent(self)
         self.input_box.show()
