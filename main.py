@@ -18,10 +18,11 @@ class Main:
 
         self.window.next_button.pressed.connect(self.load_new_puzzle)
         self.window.answer_button.pressed.connect(self.show_answer)
+        self.window.delete_user_button()
         self.window.input_box.returnPressed.connect(lambda: (
             self.window.on_enter_pressed(),
             self.load_new_puzzle(),
-            self.window.delete_user_button()
+            self.window.delete_button.show()
         ))
 
 

@@ -78,7 +78,7 @@ class MainWindow(QWidget):
 
         if username_exists:
             current_user = self.main.users.return_user_as_class(self.entered_text)
-            self.input_box.setParent(None)
+            # self.input_box.setParent(None)
             self.input_box.hide()
             self.draw_user_stats(current_user)
             MainWindow.CURRENT_USER = current_user
@@ -86,7 +86,7 @@ class MainWindow(QWidget):
         else:
             new_user = user.User(self.entered_text, 0, 0)
             self.main.users.add_user(*new_user.__str__())
-            self.input_box.setParent(None)
+            # self.input_box.setParent(None)
             self.input_box.hide()
             self.draw_user_stats(new_user)
             MainWindow.CURRENT_USER = new_user
@@ -96,11 +96,11 @@ class MainWindow(QWidget):
             self.stats_box.setFixedHeight(50)
             self.stats_box.setStyleSheet(
                 "font-size: 18px; color: white; background-color: #424242; border-radius: 20px; padding: 10px;")
-            self.stats_box.setParent(None)
+            # self.stats_box.setParent(None)
             self.stats_box.hide()
             self.vertical_layout.addWidget(self.stats_box)
         else:
-            self.stats_box.setParent(self)
+            # self.stats_box.setParent(self)
             self.stats_box.show()
             self.stats_box.setText(f"👤 {user.username}     📈 რეიტინგი: {user.elo}     ✅ ამოხსნილი პაზლები: {user.puzzles_solved}")
 
@@ -123,7 +123,12 @@ class MainWindow(QWidget):
     def delete_user_function(self):
         username = self.entered_text
         self.main.users.delete_user(username)
-
+        self.input_box.setParent(self)
+        self.input_box.show()
+        self.input_box.clear()
+        # self.stats_box.setParent(None)
+        self.stats_box.hide()
+        self.delete_button.hide()
 
     def delete_user_button(self):
         self.delete_layout = QHBoxLayout()
@@ -134,9 +139,8 @@ class MainWindow(QWidget):
         self.delete_button.setCursor(Qt.PointingHandCursor)
         self.delete_layout.addWidget(self.delete_button)
         self.vertical_layout.insertLayout(1, self.delete_layout)
+        self.delete_button.hide()
         self.delete_button.clicked.connect(self.delete_user_function)
-
-
 
 class SquareButton(QPushButton):
     color1 = "#eeeed2"
