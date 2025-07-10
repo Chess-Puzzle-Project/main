@@ -11,12 +11,13 @@ class Main:
         self.timer = QTimer()
         self.timer.setSingleShot(True)
         self.timer.timeout.connect(self.opponent_move)
+        self.is_board_loaded = False
 
 
         for btn in self.window.buttons:
             btn.clicked.connect(self.on_btn_click)
 
-        self.window.next_button.pressed.connect(self.load_new_puzzle)
+        self.window.next_button.pressed.connect(self.on_next_pressed)
         self.window.answer_button.pressed.connect(self.show_answer)
         self.window.delete_user_button()
         self.window.input_box.returnPressed.connect(lambda: (
@@ -32,7 +33,8 @@ class Main:
 
         self.puzzle = self.data.get_next_puzzle()
         self.board = self.puzzle.board
-        
+        self.is_board_loaded = True
+
         self.moves = self.puzzle.moves.split(' ')
         self.move_num = 0
 
@@ -136,6 +138,10 @@ class Main:
             self.selected_piece = -1
             self.can_click = False
             self.timer.start(1000)
+    
+    def on_next_pressed(self):
+        if self.is_board_loaded:
+            self.load_new_puzzle()
 
     def win(self):
         print("win")

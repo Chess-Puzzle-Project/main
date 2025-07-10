@@ -125,6 +125,7 @@ class MainWindow(QWidget):
         for i in range(64):
             board.append('')
         self.draw_pieces(board)
+        self.main.is_board_loaded = False
 
         self.input_box.setParent(self)
         self.input_box.show()
