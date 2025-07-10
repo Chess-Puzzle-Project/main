@@ -68,10 +68,8 @@ class MainWindow(QWidget):
         self.input_box.setFixedHeight(50)
         self.input_box.setStyleSheet("font-size: 18px; color: white; background-color: #424242; border-radius: 20px; padding: 10px;")
         self.vertical_layout.addWidget(self.input_box)
-        self.input_box.returnPressed.connect(self.on_enter_pressed)
 
     def on_enter_pressed(self):
-        self.delete_user_button()
         self.entered_text = self.input_box.text()
         print(f"შეყვანილი მომხმარებლის სახელი: {self.entered_text}")
         username_exists = users_database.UsersDatabase.check_if_username_exists(self.entered_text)

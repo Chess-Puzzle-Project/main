@@ -18,14 +18,18 @@ class Main:
 
         self.window.next_button.pressed.connect(self.load_new_puzzle)
         self.window.answer_button.pressed.connect(self.show_answer)
-        self.window.input_box.editingFinished.connect(self.load_new_puzzle)
+        self.window.input_box.returnPressed.connect(lambda: (
+            self.window.on_enter_pressed(),
+            self.load_new_puzzle(),
+            self.window.delete_user_button()
+        ))
 
 
     def load_new_puzzle(self):
         if self.timer.isActive():
             self.timer.stop()
 
-        self.puzzle = self.data.get_random_puzzle()
+        self.puzzle = self.data.get_next_puzzle()
         self.board = self.puzzle.board
         self.window.draw_pieces(self.board)
         self.moves = self.puzzle.moves.split(' ')
@@ -131,6 +135,7 @@ class Main:
         self.has_won = True
         self.color_board()
         ui.MainWindow.CURRENT_USER.puzzles_solved += 1
+        ui.MainWindow.CURRENT_USER.elo = puzzles_database.PuzzlesDatabase.next_rating + 50
         self.users.update_user(*ui.MainWindow.CURRENT_USER.__str__())
         self.window.draw_user_stats(ui.MainWindow.CURRENT_USER)
 
