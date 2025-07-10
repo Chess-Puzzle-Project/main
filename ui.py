@@ -71,6 +71,7 @@ class MainWindow(QWidget):
         self.input_box.returnPressed.connect(self.on_enter_pressed)
 
     def on_enter_pressed(self):
+        self.delete_user_button()
         entered_text = self.input_box.text()
         print(f"შეყვანილი მომხმარებლის სახელი: {entered_text}")
         username_exists = users_database.UsersDatabase.check_if_username_exists(entered_text)
@@ -121,6 +122,15 @@ class MainWindow(QWidget):
         self.button_layout.addWidget(self.next_button)
         self.vertical_layout.addLayout(self.button_layout)
 
+    def delete_user_button(self):
+        self.delete_layout = QHBoxLayout()
+        self.delete_layout.addStretch()
+        self.delete_button = QPushButton('მომხმარებლის წაშლა')
+        self.delete_button.setFixedSize(215, 50)
+        self.delete_button.setStyleSheet("font-size: 20px; color: red; background-color: #424242; border-radius: 20px;")
+        self.delete_button.setCursor(Qt.PointingHandCursor)
+        self.delete_layout.addWidget(self.delete_button)
+        self.vertical_layout.insertLayout(1, self.delete_layout)
 
 
 class SquareButton(QPushButton):
